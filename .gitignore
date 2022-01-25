@@ -3,6 +3,12 @@
 *.a
 *.so
 a.out
+*.bc
+*.ll
+*.s
+*.ii
+*.fatbin
+*.cui
 
 # ignore temp files
 *.swap
