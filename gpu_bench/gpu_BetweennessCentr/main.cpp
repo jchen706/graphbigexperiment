@@ -7,6 +7,7 @@
 #include "common.h"
 #include "def.h"
 #include "openG.h"
+#include "perf.h"
 
 using namespace std;
 
@@ -56,8 +57,9 @@ int main(int argc, char * argv[])
     cout<<"Benchmark: GPU Betweenness Centrality\n";
 
     argument_parser arg;
-    gBenchPerf_event perf;
-    if (arg.parse(argc,argv,perf,false)==false)
+    // gBenchPerf_event perf;
+    // void* ignore_perf;
+    if (arg.parse(argc,argv,false)==false)
     {
         arg.help();
         return -1;
