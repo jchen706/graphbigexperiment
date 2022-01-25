@@ -77,9 +77,9 @@ int main(int argc, char * argv[])
     cout<<"Benchmark: GPU BFS\n";
 
     argument_parser arg;
-    gBenchPerf_event perf;
+    // gBenchPerf_event perf;
     arg_init(arg);
-    if (arg.parse(argc,argv,perf,false)==false)
+    if (arg.parse(argc,argv,false)==false)
     {
         arg.help();
         return -1;

@@ -1,0 +1,11 @@
+
+
+Debugging with GDB: 
+
+gdb) b get_work(c_thread*)+996
+Function "get_work(c_thread*)+996" not defined.
+Make breakpoint pending 
+
+50 c 
+
+fileaname 407 = ker.start(routine)
