@@ -62,8 +62,8 @@ int main(int argc, char * argv[])
     cout<<"Benchmark: GPU Connected Component\n";
 
     argument_parser arg;
-    gBenchPerf_event perf;
-    if (arg.parse(argc,argv,perf,false)==false)
+    // gBenchPerf_event perf;
+    if (arg.parse(argc,argv,false)==false)
     {
         arg.help();
         return -1;

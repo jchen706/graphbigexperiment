@@ -1,5 +1,5 @@
 
-clang++ main.cpp bfs_topo_atomic.cu bfs_topo_frontier.cu bfs_topo_thread_centric.cu bfs_topo_unroll.cu bfs_topo_warp_centric.cu bfs_data_thread_centric.cu bfs_data_warp_centric.cu  -c --cuda-path=/usr/local/cuda-10.1 --cuda-gpu-arch=sm_61 -L/usr/local/cuda-10.1/lib64 -lcudart_static -ldl -lrt -pthread -save-temps -v
+# clang++ main.cpp bfs_topo_atomic.cu bfs_topo_frontier.cu bfs_topo_thread_centric.cu bfs_topo_unroll.cu bfs_topo_warp_centric.cu bfs_data_thread_centric.cu bfs_data_warp_centric.cu  -c --cuda-path=/usr/local/cuda-10.1 --cuda-gpu-arch=sm_61 -L/usr/local/cuda-10.1/lib64 -lcudart_static -ldl -lrt -pthread -save-temps -v
 
 # clang++ -emit-llvm main.cpp --cuda-gpu-arch=sm_61 -O3 -c
 

@@ -92,6 +92,7 @@ unsigned cuda_kcore(uint64_t * vertexlist,
     float kernel_time = 0;   // kernel execution time
 
     int device;
+    cudaSetDevice(0);
     cudaGetDevice(&device);
     cudaDeviceProp devProp;
     cudaGetDeviceProperties(&devProp,device);
@@ -112,9 +113,9 @@ unsigned cuda_kcore(uint64_t * vertexlist,
     cudaErrCheck( cudaMalloc((void**)&device_remove_cnt, sizeof(unsigned)) );
     cudaErrCheck( cudaMalloc((void**)&device_over, sizeof(bool)) );
 
-    cudaEvent_t start_event, stop_event;
-    cudaErrCheck( cudaEventCreate(&start_event) );
-    cudaErrCheck( cudaEventCreate(&stop_event) );
+    // cudaEvent_t start_event, stop_event;
+    // cudaErrCheck( cudaEventCreate(&start_event) );
+    // cudaErrCheck( cudaEventCreate(&stop_event) );
     
     
     
@@ -125,7 +126,7 @@ unsigned cuda_kcore(uint64_t * vertexlist,
     h_graph.read(vertexlist, edgelist, vertex_cnt, edge_cnt);
 
     // memcpy from host to device
-    cudaEventRecord(start_event, 0);
+    // cudaEventRecord(start_event, 0);
    
     // copy graph data to device
     h_graph.cudaGraphCopy(&d_graph);
@@ -136,15 +137,15 @@ unsigned cuda_kcore(uint64_t * vertexlist,
     cudaErrCheck( cudaMemcpy(device_over, &trueflag, sizeof(bool), 
                 cudaMemcpyHostToDevice) );
 
-    cudaEventRecord(stop_event, 0);
-    cudaEventSynchronize(stop_event);
-    cudaEventElapsedTime(&h2d_copy_time, start_event, stop_event);
-
+    // cudaEventRecord(stop_event, 0);
+    // cudaEventSynchronize(stop_event);
+    // cudaEventElapsedTime(&h2d_copy_time, start_event, stop_event);
+    cudaDeviceSynchronize();
     // initialization
     initialize<<<num_block, num_thread_per_block>>>(device_vpl, device_rml, device_flag, d_graph);
     
     bool stop=false;
-    cudaEventRecord(start_event, 0);
+    // cudaEventRecord(start_event, 0);
   
     do
     {
@@ -157,20 +158,21 @@ unsigned cuda_kcore(uint64_t * vertexlist,
                 cudaMemcpyDeviceToHost) );
     }while(!stop);
 
-    cudaEventRecord(stop_event, 0);
-    cudaEventSynchronize(stop_event);
-    cudaEventElapsedTime(&kernel_time, start_event, stop_event);
+    // cudaEventRecord(stop_event, 0);
+    // cudaEventSynchronize(stop_event);
+    // cudaEventElapsedTime(&kernel_time, start_event, stop_event);
+    cudaDeviceSynchronize();
 
 
-    cudaEventRecord(start_event, 0);
+    // cudaEventRecord(start_event, 0);
     cudaErrCheck( cudaMemcpy(&remove_cnt, device_remove_cnt, sizeof(unsigned), 
                 cudaMemcpyDeviceToHost) );
     cudaErrCheck( cudaMemcpy(vproplist, device_vpl, vertex_cnt*sizeof(uint32_t), 
                 cudaMemcpyDeviceToHost) );
     
-    cudaEventRecord(stop_event, 0);
-    cudaEventSynchronize(stop_event);
-    cudaEventElapsedTime(&d2h_copy_time, start_event, stop_event);
+    // cudaEventRecord(stop_event, 0);
+    // cudaEventSynchronize(stop_event);
+    // cudaEventElapsedTime(&d2h_copy_time, start_event, stop_event);
 
 #ifndef ENABLE_VERIFY
     printf("== host->device copy time: %f ms\n", h2d_copy_time);
@@ -178,8 +180,8 @@ unsigned cuda_kcore(uint64_t * vertexlist,
     printf("== kernel time: %f ms\n", kernel_time);
 #endif
 
-    cudaEventDestroy(start_event);
-    cudaEventDestroy(stop_event);
+    // cudaEventDestroy(start_event);
+    // cudaEventDestroy(stop_event);
 
     // free graph struct on device side
     d_graph.cudaGraphFree();
